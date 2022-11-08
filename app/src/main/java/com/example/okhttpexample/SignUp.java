@@ -49,13 +49,28 @@ public class SignUp extends AppCompatActivity {
                             inputPw.getText().toString().trim().length() > 0 ||
                             inputNickName.getText().toString().trim().length() > 0) {
 
+
                         // 프로그래스바 보이게 처리
 //                        findViewById(R.id.cpb).setVisibility(View.VISIBLE);
 
+
                         // get방식 파라미터 추가
+//                        HttpUrl httpUrl = new HttpUrl.Builder()
+//                                .scheme("http")
+//                                .host("43.201.105.106")
+//                                .addPathSegment("/")
+//                                .addQueryParameter("v", "1.0")
+//                                .build();
+//                        Log.i("[SignUp Activity]", "httpUrl 확인 : " + httpUrl);
+
                         HttpUrl.Builder urlBuilder = HttpUrl.parse("http://43.201.105.106/signUp.php").newBuilder();
                         urlBuilder.addQueryParameter("v", "1.0"); // 예시
                         String url = urlBuilder.build().toString();
+//                        String url = httpUrl.toString();
+                        Log.i("[SignUp Activity]", "String url 확인 : " + url);
+
+
+
 
                         // POST 파라미터 추가
                         RequestBody formBody = new FormBody.Builder()
@@ -63,6 +78,7 @@ public class SignUp extends AppCompatActivity {
                                 .add("pw", inputPw.getText().toString().trim())
                                 .add("nickname", inputNickName.getText().toString().trim())
                                 .build();
+
 
                         // 요청 만들기
                         OkHttpClient client = new OkHttpClient();
@@ -91,6 +107,7 @@ public class SignUp extends AppCompatActivity {
                                             // 프로그래스바 안보이게 처리
 //                                            findViewById(R.id.cpb).setVisibility(View.GONE);
 
+                                            Log.i("tag", "응답 실패 : " + response);
                                             if (!response.isSuccessful()) {
                                                 // 응답 실패
                                                 Log.i("tag", "응답 실패 : " + response);
