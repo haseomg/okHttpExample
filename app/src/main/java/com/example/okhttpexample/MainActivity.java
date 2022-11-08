@@ -52,10 +52,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 int status = NetworkStatus.getConnectivityStatus(getApplicationContext());
-                if(status == NetworkStatus.TYPE_MOBILE || status == NetworkStatus.TYPE_WIFI) {
+                if (status == NetworkStatus.TYPE_MOBILE || status == NetworkStatus.TYPE_WIFI) {
 
                     // EditText값 예외처리
-                    if(input_id.getText().toString().trim().length() > 0 ||
+                    if (input_id.getText().toString().trim().length() > 0 ||
                             input_pwd.getText().toString().trim().length() > 0) {
 
                         // 프로그래스바 보이게 처리
@@ -108,9 +108,9 @@ public class MainActivity extends AppCompatActivity {
                                                 Log.i("tag", "응답 성공");
                                                 final String responseData = response.body().string().trim();
                                                 Log.i("tag", responseData);
-                                                if(responseData.equals("1")) {
+                                                if (responseData.equals("1")) {
                                                     Toast.makeText(getApplicationContext(), "아이디 비밀번호를 확인해주세요.", Toast.LENGTH_SHORT).show();
-                                                }else {
+                                                } else {
                                                     startActivityString(MainActivity.class, "nickname", responseData);
                                                 }
                                             }
@@ -146,14 +146,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // 문자열 인텐트 전달 함수
-    public void startActivityString(Class c, String name , String sendString) {
+    public void startActivityString(Class c, String name, String sendString) {
         Intent intent = new Intent(getApplicationContext(), c);
         intent.putExtra(name, sendString);
         startActivity(intent);
         // 화면전환 애니메이션 없애기
         overridePendingTransition(0, 0);
     }
-
 
 
 }
