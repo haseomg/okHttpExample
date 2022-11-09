@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     Button logInBtn;
     EditText input_id, input_pwd;
     TextView signup_text;
+    TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         input_id = findViewById(R.id.input_id);
         input_pwd = findViewById(R.id.input_pwd);
         signup_text = findViewById(R.id.signup_text);
+        textView = findViewById(R.id.textView);
 
         signup_text.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,9 +111,14 @@ public class MainActivity extends AppCompatActivity {
                                                 final String responseData = response.body().string().trim();
                                                 Log.i("tag", responseData);
                                                 if (responseData.equals("1")) {
+                                                    Log.i("[Main]","responseData 가 1일 때 : " + responseData);
                                                     Toast.makeText(getApplicationContext(), "아이디 비밀번호를 확인해주세요.", Toast.LENGTH_SHORT).show();
                                                 } else {
+                                                    Log.i("[Main]","responseData 가 1이 아닐 때 : " + responseData);
                                                     startActivityString(MainActivity.class, "nickname", responseData);
+                                                    if (!responseData.equals(0)) {
+                                                        textView.setText(responseData);
+                                                    }
                                                 }
                                             }
 
@@ -120,8 +127,8 @@ public class MainActivity extends AppCompatActivity {
                                         }
                                     }
                                 });
-
                             }
+
                         });
                     } else {
                         Toast.makeText(getApplicationContext(), "입력 안된 칸이 있습니다.", Toast.LENGTH_SHORT).show();

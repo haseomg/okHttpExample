@@ -53,23 +53,12 @@ public class SignUp extends AppCompatActivity {
                         // 프로그래스바 보이게 처리
 //                        findViewById(R.id.cpb).setVisibility(View.VISIBLE);
 
-
                         // get방식 파라미터 추가
-//                        HttpUrl httpUrl = new HttpUrl.Builder()
-//                                .scheme("http")
-//                                .host("43.201.105.106")
-//                                .addPathSegment("/")
-//                                .addQueryParameter("v", "1.0")
-//                                .build();
-//                        Log.i("[SignUp Activity]", "httpUrl 확인 : " + httpUrl);
-
                         HttpUrl.Builder urlBuilder = HttpUrl.parse("http://43.201.105.106/signUp.php").newBuilder();
-                        urlBuilder.addQueryParameter("v", "1.0"); // 예시
+                        urlBuilder.addQueryParameter("ver", "1.0"); // 예시
                         String url = urlBuilder.build().toString();
 //                        String url = httpUrl.toString();
                         Log.i("[SignUp Activity]", "String url 확인 : " + url);
-
-
 
 
                         // POST 파라미터 추가
@@ -92,11 +81,13 @@ public class SignUp extends AppCompatActivity {
                             @Override
                             public void onFailure(Call call, IOException e) {
                                 e.printStackTrace();
+                                Log.i("[SignUp]","" + e);
                             }
 
                             @Override
                             public void onResponse(Call call, final Response response) throws IOException {
 
+                                Log.i("[SignUp Activity]", "onResponse 메서드 작동");
 
                                 // 서브 스레드 Ui 변경 할 경우 에러
                                 // 메인스레드 Ui 설정
@@ -107,20 +98,25 @@ public class SignUp extends AppCompatActivity {
                                             // 프로그래스바 안보이게 처리
 //                                            findViewById(R.id.cpb).setVisibility(View.GONE);
 
-                                            Log.i("tag", "응답 실패 : " + response);
                                             if (!response.isSuccessful()) {
                                                 // 응답 실패
-                                                Log.i("tag", "응답 실패 : " + response);
+                                                Log.i("[SignUp Activity]", "응답 실패 : " + response);
                                                 Toast.makeText(getApplicationContext(), "네트워크 문제 발생", Toast.LENGTH_SHORT).show();
 
                                             } else {
                                                 // 응답 성공
-                                                Log.i("tag", "응답 성공 : " + response);
+                                                Log.i("[SignUp Activity]", "응답 성공 : " + response);
                                                 final String responseData = response.body().string();
-                                                if (responseData.equals("0")) {
+                                                Log.i("[SignUp Activity]", "응답 성공 responseData : " + responseData);
+
+                                                if (responseData.equals("[Mysql 연결 성공] 1")) {
+                                                    Log.i("[SignUp Activity]", "responseData.equals(\"0\")");
+                                                    Toast.makeText(getApplicationContext(), "회원가입에 성공했습니다.", Toast.LENGTH_SHORT).show();
                                                     startActivityflag(MainActivity.class);
                                                 } else {
-                                                    Toast.makeText(getApplicationContext(), "회원가입에 실패 했습니다." + responseData, Toast.LENGTH_SHORT).show();
+                                                    Log.i("[SignUp Activity]", "responseData.equals(\"0\") else : " + responseData);
+
+                                                    Toast.makeText(getApplicationContext(), "회원가입에 실패했습니다.", Toast.LENGTH_SHORT).show();
                                                 }
                                             }
 
